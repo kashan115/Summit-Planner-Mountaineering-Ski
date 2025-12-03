@@ -6,7 +6,7 @@ interface PlanDashboardProps {
 }
 
 export const PlanDashboard: React.FC<PlanDashboardProps> = ({ plan }) => {
-  const [activeTab, setActiveTab] = useState<'overview' | 'gear' | 'logistics' | 'emergency'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'gear' | 'driving' | 'logistics' | 'emergency'>('overview');
   const [gearState, setGearState] = useState<GearCategory[]>(plan.gearList);
 
   const toggleGear = (catIndex: number, itemIndex: number) => {
@@ -55,7 +55,7 @@ export const PlanDashboard: React.FC<PlanDashboardProps> = ({ plan }) => {
 
       {/* Navigation */}
       <div className="flex overflow-x-auto gap-4 mb-8 pb-2">
-        {(['overview', 'gear', 'logistics', 'emergency'] as const).map((tab) => (
+        {(['overview', 'gear', 'driving', 'logistics', 'emergency'] as const).map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
@@ -178,19 +178,22 @@ export const PlanDashboard: React.FC<PlanDashboardProps> = ({ plan }) => {
           </div>
         )}
 
-        {/* Logistics Tab */}
-        {activeTab === 'logistics' && (
+        {/* Driving Tab */}
+        {activeTab === 'driving' && (
            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-             <InfoCard title="Permits & Red Tape" icon="🎫" content={plan.logistics.permits} />
-             <InfoCard title="Parking & Trailhead" icon="🅿️" content={plan.logistics.parking} />
-             <InfoCard title="Nearest Town / Resupply" icon="🏪" content={plan.logistics.nearestTown} />
+             <div className="md:col-span-2">
+                <InfoCard title="Trailhead" icon="📍" content={plan.driving.trailheadName} />
+             </div>
+             <InfoCard title="Parking Passes" icon="🎫" content={plan.driving.passes} />
+             
+             {/* Directions Card with Link */}
              <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-xl p-6 text-white shadow-lg">
                 <h3 className="text-xl font-bold mb-4 flex items-center gap-2">🚗 Directions</h3>
                 <p className="text-slate-300 text-sm leading-relaxed mb-4">
-                  Consider downloading offline maps (Google Maps, Gaia GPS, or CalTopo) before leaving service.
+                  {plan.driving.directions}
                 </p>
                 <a 
-                  href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(plan.destination + ' trailhead')}`}
+                  href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(plan.driving.trailheadName + ' ' + plan.destination)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded-lg text-sm font-semibold transition-colors"
@@ -198,6 +201,14 @@ export const PlanDashboard: React.FC<PlanDashboardProps> = ({ plan }) => {
                   Open in Google Maps
                 </a>
              </div>
+           </div>
+        )}
+
+        {/* Logistics Tab */}
+        {activeTab === 'logistics' && (
+           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+             <InfoCard title="Permits & Red Tape" icon="📝" content={plan.logistics.permits} />
+             <InfoCard title="Nearest Town / Resupply" icon="🏪" content={plan.logistics.nearestTown} />
            </div>
         )}
 

@@ -16,10 +16,11 @@ export const generateMountaineeringPlan = async (request: PlanRequest): Promise<
 
     Please use Google Search to find real, up-to-date information regarding:
     1. The best or most standard route for this objective.
-    2. Current or typical weather/avalanche patterns for this season.
-    3. Permit requirements, parking passes, and regulations.
-    4. Emergency contact info (nearest hospital, ranger station).
-    5. Specific gear needed (e.g., 3-season vs 4-season boots, crevasse rescue gear, specific rack for rock climbing).
+    2. Current or typical weather patterns and avalanche risks. IMPORTANT: Find specific links for NOAA (or local meteo), SpotWx, and local avalanche centers (e.g., NWAC, CAIC).
+    3. Driving instructions, trailhead name, and specific parking passes/permits required.
+    4. Permit requirements (climbing/wilderness) and regulations.
+    5. Emergency contact info (nearest hospital, ranger station).
+    6. Specific gear needed.
 
     RETURN FORMAT:
     You must return a valid JSON object wrapped in a markdown code block like \`\`\`json ... \`\`\`.
@@ -42,9 +43,13 @@ export const generateMountaineeringPlan = async (request: PlanRequest): Promise<
         "avalancheRisk": "string (mention check local avalanche center)",
         "seasonality": "string"
       },
+      "driving": {
+        "trailheadName": "string",
+        "directions": "string (summary of drive and approach)",
+        "passes": "string (e.g. NW Forest Pass, America the Beautiful, Sno-Park)"
+      },
       "logistics": {
-        "permits": "string",
-        "parking": "string",
+        "permits": "string (wilderness/climbing permits)",
         "nearestTown": "string"
       },
       "emergency": {
@@ -61,7 +66,7 @@ export const generateMountaineeringPlan = async (request: PlanRequest): Promise<
         }
       ],
       "betaLinks": [
-        { "title": "string", "url": "string", "description": "string" }
+        { "title": "string (e.g. NOAA Point Forecast, NWAC Avalanche)", "url": "string", "description": "string" }
       ]
     }
   `;

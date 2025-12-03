@@ -34,9 +34,13 @@ export interface ClimbPlan {
     avalancheRisk: string;
     seasonality: string;
   };
+  driving: {
+    trailheadName: string;
+    directions: string;
+    passes: string;
+  };
   logistics: {
     permits: string;
-    parking: string;
     nearestTown: string;
   };
   emergency: {
