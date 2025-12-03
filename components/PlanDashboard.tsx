@@ -6,7 +6,7 @@ interface PlanDashboardProps {
 }
 
 export const PlanDashboard: React.FC<PlanDashboardProps> = ({ plan }) => {
-  const [activeTab, setActiveTab] = useState<'overview' | 'gear' | 'driving' | 'logistics' | 'emergency'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'analysis' | 'gear' | 'driving' | 'logistics' | 'emergency'>('overview');
   const [gearState, setGearState] = useState<GearCategory[]>(plan.gearList);
 
   const toggleGear = (catIndex: number, itemIndex: number) => {
@@ -34,7 +34,7 @@ export const PlanDashboard: React.FC<PlanDashboardProps> = ({ plan }) => {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 border-b border-gray-200 pb-6">
         <div>
           <div className="flex items-center gap-3 mb-2">
-            <span className="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded uppercase tracking-wide">
+            <span className="bg-cyan-100 text-cyan-800 text-xs font-semibold px-2.5 py-0.5 rounded uppercase tracking-wide">
               {plan.activity}
             </span>
             <span className="bg-orange-100 text-orange-800 text-xs font-semibold px-2.5 py-0.5 rounded uppercase tracking-wide">
@@ -47,25 +47,25 @@ export const PlanDashboard: React.FC<PlanDashboardProps> = ({ plan }) => {
         <div className="mt-4 md:mt-0 flex flex-col items-end">
            <div className="text-right text-sm text-slate-500 mb-1">Packing Progress</div>
            <div className="w-48 bg-gray-200 rounded-full h-2.5">
-              <div className="bg-blue-600 h-2.5 rounded-full transition-all duration-500" style={{ width: `${calculateProgress()}%` }}></div>
+              <div className="bg-cyan-600 h-2.5 rounded-full transition-all duration-500" style={{ width: `${calculateProgress()}%` }}></div>
            </div>
            <span className="text-xs text-slate-400 mt-1">{calculateProgress()}% Ready</span>
         </div>
       </div>
 
       {/* Navigation */}
-      <div className="flex overflow-x-auto gap-4 mb-8 pb-2">
-        {(['overview', 'gear', 'driving', 'logistics', 'emergency'] as const).map((tab) => (
+      <div className="flex overflow-x-auto gap-3 mb-8 pb-2">
+        {(['overview', 'analysis', 'gear', 'driving', 'logistics', 'emergency'] as const).map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
-            className={`px-5 py-2.5 rounded-full font-medium whitespace-nowrap transition-colors
+            className={`px-5 py-2.5 rounded-full font-medium whitespace-nowrap transition-all
               ${activeTab === tab 
-                ? 'bg-slate-900 text-white shadow-md' 
-                : 'bg-white text-slate-600 hover:bg-gray-100 border border-gray-200'}
+                ? 'bg-slate-900 text-white shadow-lg transform scale-105' 
+                : 'bg-white text-slate-600 hover:bg-gray-50 border border-gray-200'}
             `}
           >
-            {tab.charAt(0).toUpperCase() + tab.slice(1)}
+            {tab === 'analysis' ? '✨ Smart Analysis' : tab.charAt(0).toUpperCase() + tab.slice(1)}
           </button>
         ))}
       </div>
@@ -136,6 +136,56 @@ export const PlanDashboard: React.FC<PlanDashboardProps> = ({ plan }) => {
                     {plan.routeInfo.technicalNotes}
                   </p>
                </div>
+            </div>
+          </div>
+        )}
+
+        {/* Smart Analysis Tab */}
+        {activeTab === 'analysis' && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="md:col-span-2">
+              <div className="bg-gradient-to-br from-indigo-900 to-slate-900 rounded-xl p-8 text-white shadow-xl relative overflow-hidden">
+                <div className="relative z-10">
+                  <h3 className="text-2xl font-bold mb-4 flex items-center gap-2">
+                    <span className="text-cyan-400">⚡</span> AI Monthly Insight
+                  </h3>
+                  <p className="text-lg text-slate-200 leading-relaxed font-light">
+                    {plan.decisionAid?.monthlyAnalysis || "Analysis not available for this period."}
+                  </p>
+                </div>
+                {/* Decorative blob */}
+                <div className="absolute -top-24 -right-24 w-64 h-64 bg-cyan-500 rounded-full mix-blend-overlay filter blur-3xl opacity-20"></div>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+              <h4 className="font-bold text-slate-900 mb-4 flex items-center gap-2 text-lg">
+                <span className="text-green-500">✅</span> Go/No-Go Decision Criteria
+              </h4>
+              <p className="text-xs text-slate-500 mb-4">Evaluate these conditions before departure:</p>
+              <ul className="space-y-3">
+                {plan.decisionAid?.goNoGoCriteria?.map((criteria, idx) => (
+                  <li key={idx} className="flex items-start gap-3 p-3 bg-green-50 rounded-lg border border-green-100">
+                     <div className="mt-0.5 min-w-[1.25rem] text-green-600 font-bold">•</div>
+                     <span className="text-slate-700 text-sm">{criteria}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+              <h4 className="font-bold text-slate-900 mb-4 flex items-center gap-2 text-lg">
+                <span className="text-red-500">⚠️</span> Critical Hazards
+              </h4>
+               <p className="text-xs text-slate-500 mb-4">Be aware of these specific risks:</p>
+              <ul className="space-y-3">
+                {plan.decisionAid?.criticalHazards?.map((hazard, idx) => (
+                  <li key={idx} className="flex items-start gap-3 p-3 bg-red-50 rounded-lg border border-red-100">
+                     <div className="mt-0.5 min-w-[1.25rem] text-red-600 font-bold">!</div>
+                     <span className="text-slate-700 text-sm">{hazard}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         )}

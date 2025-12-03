@@ -10,17 +10,18 @@ export const generateMountaineeringPlan = async (request: PlanRequest): Promise<
   }
 
   const prompt = `
-    You are an expert mountaineering guide and trip planner.
-    I need a comprehensive plan for ${request.activity} at "${request.destination}".
+    You are an expert mountaineering guide and "Smart Climb" AI assistant.
+    I need a comprehensive plan for ${request.activity} at "${request.destination}" planned for the month of **${request.month}**.
     Additional user context: "${request.details}".
 
     Please use Google Search to find real, up-to-date information regarding:
     1. The best or most standard route for this objective.
-    2. Current or typical weather patterns and avalanche risks. IMPORTANT: Find specific links for NOAA (or local meteo), SpotWx, and local avalanche centers (e.g., NWAC, CAIC).
-    3. Driving instructions, trailhead name, and specific parking passes/permits required.
-    4. Permit requirements (climbing/wilderness) and regulations.
-    5. Emergency contact info (nearest hospital, ranger station).
-    6. Specific gear needed.
+    2. Typical weather patterns and specific hazards for ${request.month}.
+    3. Find specific links for NOAA (or local meteo), SpotWx, and local avalanche centers (e.g., NWAC, CAIC) to help the user analyze conditions.
+    4. Driving instructions, trailhead name, and specific parking passes/permits required.
+    5. Permit requirements (climbing/wilderness) and regulations.
+    6. Emergency contact info (nearest hospital, ranger station).
+    7. Specific gear needed for ${request.month} conditions.
 
     RETURN FORMAT:
     You must return a valid JSON object wrapped in a markdown code block like \`\`\`json ... \`\`\`.
@@ -42,6 +43,11 @@ export const generateMountaineeringPlan = async (request: PlanRequest): Promise<
         "weatherSummary": "string",
         "avalancheRisk": "string (mention check local avalanche center)",
         "seasonality": "string"
+      },
+      "decisionAid": {
+        "monthlyAnalysis": "string (Specific analysis for climbing in ${request.month}. Is it prime season? Early/Late season issues?)",
+        "goNoGoCriteria": ["string (e.g. 'Wind gusts > 30mph')", "string (e.g. 'New snow > 6 inches')"],
+        "criticalHazards": ["string (e.g. 'Rockfall in afternoon')", "string (e.g. 'Open crevasses')"]
       },
       "driving": {
         "trailheadName": "string",
@@ -77,8 +83,6 @@ export const generateMountaineeringPlan = async (request: PlanRequest): Promise<
       contents: prompt,
       config: {
         tools: [{ googleSearch: {} }],
-        // We cannot use responseMimeType: 'application/json' with googleSearch, 
-        // so we rely on the prompt to enforce JSON format in the text output.
       },
     });
 

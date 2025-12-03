@@ -30,8 +30,8 @@ function App() {
       <header className="bg-slate-900 border-b border-slate-800 sticky top-0 z-50">
          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <div className="flex items-center gap-2 cursor-pointer" onClick={() => setCurrentPlan(null)}>
-              <span className="text-2xl">🏔️</span>
-              <span className="text-white font-bold text-xl tracking-tight">Summit Planner AI</span>
+              <span className="text-2xl">⚡</span>
+              <span className="text-white font-bold text-xl tracking-tight bg-gradient-to-r from-cyan-400 to-white bg-clip-text text-transparent">Smart Climb AI</span>
             </div>
             <div className="flex items-center gap-4">
               <a 
@@ -65,7 +65,7 @@ function App() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
               <button 
                 onClick={() => setCurrentPlan(null)}
-                className="flex items-center text-slate-500 hover:text-blue-600 font-medium mb-4 transition-colors"
+                className="flex items-center text-slate-500 hover:text-cyan-600 font-medium mb-4 transition-colors"
               >
                 <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
                 New Plan
@@ -80,17 +80,17 @@ function App() {
             <div className="max-w-7xl mx-auto px-4 py-16 text-center">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
                 <div className="p-6 bg-white rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
-                  <div className="text-4xl mb-4">🎒</div>
-                  <h3 className="font-bold text-lg mb-2">Smart Packing Lists</h3>
-                  <p className="text-slate-500 text-sm">Get tailored gear lists based on specific route conditions and difficulty.</p>
+                  <div className="text-4xl mb-4 text-cyan-500">🧠</div>
+                  <h3 className="font-bold text-lg mb-2">Smart Decisions</h3>
+                  <p className="text-slate-500 text-sm">AI-driven "Go/No-Go" analysis based on your selected month and current hazards.</p>
                 </div>
                 <div className="p-6 bg-white rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
-                  <div className="text-4xl mb-4">🌦️</div>
-                  <h3 className="font-bold text-lg mb-2">Real-Time Conditions</h3>
-                  <p className="text-slate-500 text-sm">We search the latest avalanche reports (NWAC) and weather forecasts (NOAA) for you.</p>
+                  <div className="text-4xl mb-4 text-blue-500">🌦️</div>
+                  <h3 className="font-bold text-lg mb-2">Weather Intelligence</h3>
+                  <p className="text-slate-500 text-sm">We find and analyze specific forecast links (NOAA, SpotWx) for your exact route.</p>
                 </div>
                 <div className="p-6 bg-white rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
-                  <div className="text-4xl mb-4">🚗</div>
+                  <div className="text-4xl mb-4 text-purple-500">🚗</div>
                   <h3 className="font-bold text-lg mb-2">Logistics Solved</h3>
                   <p className="text-slate-500 text-sm">Automatic retrieval of driving directions, required passes, and nearest emergency services.</p>
                 </div>
@@ -102,10 +102,23 @@ function App() {
         )}
       </main>
 
-      <footer className="bg-slate-950 border-t border-slate-900 py-8">
-        <div className="max-w-7xl mx-auto px-4 text-center text-slate-500 text-sm">
-          <p className="mb-2">© {new Date().getFullYear()} Summit Planner AI. Open Source under MIT License.</p>
-          <p className="text-xs text-slate-600 max-w-2xl mx-auto">
+      <footer className="bg-slate-950 border-t border-slate-900 py-12">
+        <div className="max-w-7xl mx-auto px-4 text-center">
+          <p className="text-slate-500 mb-4">© {new Date().getFullYear()} Smart Climb AI. Open Source under MIT License.</p>
+          
+          <div className="bg-slate-900 rounded-lg p-6 max-w-2xl mx-auto mb-8 border border-slate-800">
+            <p className="text-slate-300 font-medium mb-2">Want to make this better?</p>
+            <p className="text-sm text-slate-400 mb-4">
+              This project is open source. We welcome contributions from the community to improve route accuracy, add new features, or refine the AI models.
+            </p>
+            <div className="flex justify-center gap-4">
+               <a href="#" className="text-cyan-400 hover:text-cyan-300 text-sm font-semibold">Contribute on GitHub</a>
+               <span className="text-slate-700">|</span>
+               <a href="mailto:features@smartclimb.ai" className="text-cyan-400 hover:text-cyan-300 text-sm font-semibold">Request a Feature</a>
+            </div>
+          </div>
+
+          <p className="text-xs text-slate-600 max-w-2xl mx-auto leading-relaxed">
             Disclaimer: Mountaineering involves inherent risks. This AI-generated plan is for planning purposes only and should not replace professional instruction, official guidebooks, or current local regulations. Always check official sources (NOAA, NWAC) before departing.
           </p>
         </div>

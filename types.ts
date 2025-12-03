@@ -34,6 +34,12 @@ export interface ClimbPlan {
     avalancheRisk: string;
     seasonality: string;
   };
+  // New section for Smart Analysis
+  decisionAid: {
+    monthlyAnalysis: string;
+    goNoGoCriteria: string[];
+    criticalHazards: string[];
+  };
   driving: {
     trailheadName: string;
     directions: string;
@@ -49,12 +55,13 @@ export interface ClimbPlan {
     emergencyPhone: string;
   };
   gearList: GearCategory[];
-  betaLinks: LinkResource[]; // Specific useful links found by the AI
-  groundingSources: LinkResource[]; // Sources used to generate the response
+  betaLinks: LinkResource[]; 
+  groundingSources: LinkResource[];
 }
 
 export interface PlanRequest {
   destination: string;
   activity: ActivityType;
+  month: string;
   details: string;
 }
